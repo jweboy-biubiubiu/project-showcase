@@ -1,12 +1,18 @@
 <template>
   <view class="card">
-    <image
-      style="width: 430rpx; height: 430rpx"
-      src="https://template-static.oss-cn-hangzhou.aliyuncs.com/images/wallpaper_qrcode.jpeg"
-    />
-    <text>sd</text>
+    <image style="width: 430rpx; height: 430rpx" :src="imgUrl" />
+    <text>{{ title }}</text>
   </view>
 </template>
+
+<script>
+export default {
+  props: {
+    title: { default: '', type: String },
+    imgUrl: { default: '', type: String },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .card {

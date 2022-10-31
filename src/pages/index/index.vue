@@ -3,11 +3,12 @@
     <navbar />
     <view class="content">
       <view class="showcase">
-        <card />
-        <card />
-        <card />
-        <card />
-        <card />
+        <card
+          v-for="item in list"
+          :key="item._id"
+          :img-url="item.img_url"
+          :title="item.title"
+        />
       </view>
     </view>
   </view>
@@ -22,10 +23,25 @@ export default {
   components: { Navbar, Card },
   data() {
     return {
-      title: 'Hello',
+      list: [],
     };
   },
-  onLoad() {},
+  onLoad() {
+    const db = uniCloud.database({
+      provider: 'aliyun',
+      spaceId: 'bcbf1be5-180d-402d-83c4-587df231ebc9',
+      clientSecret: 'eBPi2uhtRvm38SVm9SBILA==',
+    });
+    db.collection('showcase-list')
+      .get()
+      .then(({ result }) => {
+        console.log(result);
+        this.list = result.data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  },
   methods: {},
 };
 </script>
