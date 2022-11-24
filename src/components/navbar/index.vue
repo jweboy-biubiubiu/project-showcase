@@ -1,23 +1,46 @@
 <template>
   <view class="navbar">
-    <!-- <text>xxx</text>
-    <text>联系我</text> -->
+    <scroll-view scroll-x class="bg-green nav text-center nav fixed">
+      <view
+        v-for="item in tabs"
+        :key="item.key"
+        class="cu-item"
+        :class="item.key == current ? 'text-white cur' : ''"
+        @tap="handleTabChange(item)"
+      >
+        {{ item.title }}
+      </view>
+    </scroll-view>
+    <view class="list">
+      <slot />
+    </view>
   </view>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      current: 'MINI_PROGRAM',
+      tabs: [
+        { key: 'MINI_PROGRAM', title: '小程序' },
+        { key: 'H5', title: 'H5' },
+      ],
+    };
+  },
+  methods: {
+    handleTabChange({ key }) {
+      this.current = key;
+      this.$emit('change', this.current);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 32rpx;
-  width: 100vw;
-  height: 64rpx;
-  background-color: royalblue;
-  color: white;
+  .list {
+    margin-top: 90upx;
+  }
 }
 </style>

@@ -1,32 +1,43 @@
 <template>
   <view class="wrapper">
-    <navbar />
-    <view class="content">
-      <view class="showcase">
-        <card />
-        <card />
-        <card />
-        <card />
-        <card />
-      </view>
-    </view>
+    <navbar @change="handleNavbarChange">
+      <list ref="list" :condition="condition">
+        <template #default="{ data }">
+          <card
+            v-for="item in data"
+            :key="item._id"
+            :title="item.title"
+            :desc="item.desc"
+            :img-url="item.img_url"
+            :mini-type="item.mini_type"
+            :type="item.type"
+            :url="item.url"
+          />
+        </template>
+      </list>
+    </navbar>
   </view>
 </template>
 
 <script>
 import Navbar from '@/components/navbar';
 import Card from '@/components/card';
+import List from '@/components/list';
 
 export default {
   name: 'HomePage',
-  components: { Navbar, Card },
+  components: { Navbar, Card, List },
   data() {
     return {
-      title: 'Hello',
+      list: [],
+      condition: `type == "MINI_PROGRAM"`,
     };
   },
-  onLoad() {},
-  methods: {},
+  methods: {
+    handleNavbarChange(data) {
+      this.$refs.list.refreshList(`type == "${data}"`);
+    },
+  },
 };
 </script>
 
