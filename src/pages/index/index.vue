@@ -1,48 +1,43 @@
 <template>
   <view class="wrapper">
-    <navbar />
-    <view class="content">
-      <view class="showcase">
-        <card
-          v-for="item in list"
-          :key="item._id"
-          :img-url="item.img_url"
-          :title="item.title"
-        />
-      </view>
-    </view>
+    <navbar @change="handleNavbarChange">
+      <list ref="list" :condition="condition">
+        <template #default="{ data }">
+          <card
+            v-for="item in data"
+            :key="item._id"
+            :title="item.title"
+            :desc="item.desc"
+            :img-url="item.img_url"
+            :mini-type="item.mini_type"
+            :type="item.type"
+            :url="item.url"
+          />
+        </template>
+      </list>
+    </navbar>
   </view>
 </template>
 
 <script>
 import Navbar from '@/components/navbar';
 import Card from '@/components/card';
+import List from '@/components/list';
 
 export default {
   name: 'HomePage',
-  components: { Navbar, Card },
+  components: { Navbar, Card, List },
   data() {
     return {
       list: [],
+      condition: `type == "MINI_PROGRAM"`,
     };
   },
-  onLoad() {
-    const db = uniCloud.database({
-      provider: 'aliyun',
-      spaceId: 'bcbf1be5-180d-402d-83c4-587df231ebc9',
-      clientSecret: 'eBPi2uhtRvm38SVm9SBILA==',
-    });
-    db.collection('showcase-list')
-      .get()
-      .then(({ result }) => {
-        console.log(result);
-        this.list = result.data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+  methods: {
+    handleNavbarChange(data) {
+      this.$refs.list.refreshList(`type == "${data}"`);
+    },
   },
-  methods: {},
 };
 </script>
 

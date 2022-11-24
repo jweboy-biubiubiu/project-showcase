@@ -1,7 +1,27 @@
 <template>
-  <view class="card">
-    <image style="width: 430rpx; height: 430rpx" :src="imgUrl" />
-    <text>{{ title }}</text>
+  <view class="cu-card article" @tap="handleCardClick">
+    <view class="cu-item shadow">
+      <view class="title">
+        <view class="text-cut"> {{ title }}</view>
+      </view>
+      <view class="content">
+        <image
+          v-if="type === 'MINI_PROGRAM'"
+          :src="imgUrl"
+          mode="aspectFill"
+          :style="{ width: '240rpx', height: '240rpx' }"
+        ></image>
+        <view class="desc">
+          <view class="text-content"> {{ desc }}</view>
+          <view>
+            <view
+              :class="['cu-tag', `bg-${miniProgram.color}`, 'light', 'round']"
+              >{{ miniProgram.name }}</view
+            >
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -10,18 +30,29 @@ export default {
   props: {
     title: { default: '', type: String },
     imgUrl: { default: '', type: String },
+    desc: { default: '', type: String },
+    miniType: { default: '', type: String },
+    type: { default: '', type: String },
+    url: { default: '', type: String },
+  },
+  computed: {
+    miniProgram() {
+      let current = {};
+      if (this.miniType === 'WEIXIN') {
+        current = { color: 'green', name: '微信小程序' };
+      }
+      if (this.miniType === 'ALIPAY') {
+        current = { color: 'blue', name: '支付宝小程序' };
+      }
+      return current;
+    },
+  },
+  methods: {
+    handleCardClick() {
+      if (this.type === 'H5') {
+        window.location.href = this.url;
+      }
+    },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.card {
-  padding: 24rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid $uni-border-color;
-  border-radius: 24rpx;
-  box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
-}
-</style>

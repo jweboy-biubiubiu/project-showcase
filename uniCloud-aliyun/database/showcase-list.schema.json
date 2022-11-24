@@ -26,6 +26,18 @@
 			"bsonType": "string",
 			"title": "描述信息",
 			"trim": "both"
+		},
+		"mini_type": {
+			"bsonType": "array",
+			"title": "小程序类型",
+			"description": "小程序类型：ALIPAY 支付宝小程序 WEXIN 微信小程序",
+			"enum": ["ALIPAY", "WEXIN"]
+		},
+		"type": {
+			"bsonType": "array",
+			"title": "类型",
+			"description": "类型：MINI_PROGRAM 小程序 H5 h5",
+			"enum": ["MINI_PROGRAM", "H5"]
 		}
 	}
 }

@@ -1,7 +1,10 @@
-import { createSSRApp } from "vue";
-import App from "./App.vue";
+import { createSSRApp } from 'vue';
+import App from './App.vue';
+import plugins from './utils/plugins';
+
 export function createApp() {
   const app = createSSRApp(App);
+  app.use(plugins);
   return {
     app,
   };

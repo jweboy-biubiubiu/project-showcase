@@ -14,4 +14,6 @@ export default {
 
 <style>
 /*每个页面公共css */
+@import '@/styles/colorui/main.css';
+@import '@/styles/colorui/icon.css';
 </style>
